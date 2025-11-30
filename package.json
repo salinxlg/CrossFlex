@@ -1,0 +1,30 @@
+{
+  "name": "crossflex",
+  "version": "7.1.2",
+  "description": "Dexkit bundle for connect with mysql remote databses.",
+  "main": "bundle.js",
+  "keywords": [
+    "sql",
+    "db",
+    "databases"
+  ],
+  "scripts": {
+    "bundle": "node bundle.js"
+  },
+  "author": "Alejandro Salinas",
+  "license": "MIT",
+  "files": [
+    "bundles/"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/salinxlg/dexkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/salinxlg/dexkit/issues"
+  },
+  "homepage": "https://github.com/salinxlg/"
+}

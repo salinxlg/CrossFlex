@@ -1,0 +1,20 @@
+{
+
+    "mode": "local",
+    "location": "/bin/com.execute.php",
+    "method": "POST",
+    "safeMode": true,
+    "allowedTables": "*",
+    "autodb": true,
+    "defaultdb": "devlabsc_com.activation",
+    "logs": {
+
+        "enabled": false,
+        "mode": "console"
+
+    },
+
+    "enveroiment": "development"
+
+
+}
