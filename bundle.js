@@ -63,6 +63,7 @@ async get({where = null, select = null, limit = null, order = null} = {}) {
     });
 
     const data = await res.json();
+    console.log(data)
     return data;
 
 }

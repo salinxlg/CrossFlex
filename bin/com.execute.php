@@ -14,8 +14,17 @@
 
             global $connection;
 
+            if (is_array($connection) && isset($connection['error'])) {
+                echo json_encode([
+                    "execute" => false,
+                    "error" => $connection['error']
+                ]);
+                exit;
+            }
+
             $conditionJson = $_POST["condition"];
             $conditions = json_decode($conditionJson, true);
+
             $whereparam = '';
             if (!empty($conditions) && is_array($conditions)) {
                 $clauses = [];
@@ -36,18 +45,27 @@
             $fields = $_POST["columns"] ?? '*';
 
             $sql = "SELECT $fields FROM $table $whereparam $order $limit";
-            
-            $query = $connection -> query($sql);
-            
-            $data = $query->fetch_all(MYSQLI_ASSOC);
 
-            echo json_encode([
-                "success" => true,
-                "data" => $data
+            try {
+
+                $query = $connection->query($sql);
+                $data = $query->fetch_all(MYSQLI_ASSOC);
+
+                echo json_encode([
+                    "execute" => true,
+                    "result" => $data
             ]);
 
+            } catch (mysqli_sql_exception $e) {
 
+                echo json_encode([
+                    "execute" => false,
+                    "error" => $e->getMessage(),
+                    "sql" => $sql 
+                ]);
+            }
         }
+
 
         switch($action){
 
