@@ -1,6 +1,6 @@
 {
   "name": "crossflex",
-  "version": "7.1.2",
+  "version": "7.2.1",
   "description": "Dexkit bundle for connect with mysql remote databses.",
   "main": "bundle.js",
   "keywords": [

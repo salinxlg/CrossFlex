@@ -4,7 +4,7 @@ let route;
 const settingsURL = new URL('./com.settings.json', import.meta.url);
 
 async function loadSettings() {const res = await fetch(settingsURL);settings = await res.json(); route = res.mode === 'remote' ? res.location : new URL('./bin/com.execute.php', import.meta.url) }await loadSettings();
-   
+
 export const crossflex = {
     databases: {},
     tables: {},
@@ -36,6 +36,7 @@ export class Table {
     }
 
 /**
+ * Obtiene uno o varios registros de la tabla según las condiciones especificadas.
  * @param {Object} options
  * @param {Object} [options.where] 
  * @param {string} [options.where.column]
@@ -45,8 +46,21 @@ export class Table {
  * @param {number} [options.limit]
  * @param {Object} [options.order]
  * @param {string} [options.order.column]
- * @param {string} [options.order.data]
+ * @param {"ASC"|"DESC"} options.order.data - Tipo de orden.
+ * @example
+ * const users = await users.get({
+ *     select: ["name", "position"],
+ *     where: { column: "name", value: "Alejandro Salinas"},
+ *     order: { column: "name", data: "ASC" },
+ *     limit: 1
+ * });
+ *
+ * // Ejemplo obteniendo todos los registros sin límite ni orden
+ * const all = await users.get({
+ *     select: ["name", "position"]
+ * });
  */
+
 
 async get({where = null, select = null, limit = null, order = null} = {}) {
 
@@ -63,15 +77,32 @@ async get({where = null, select = null, limit = null, order = null} = {}) {
     });
 
     const data = await res.json();
-    console.log(data)
     return data;
 
 }
 
+
+/**
+ * Crea un nuevo registro en la tabla con los valores especificados.
+ *
+ * @param {Object} options - Configuración del registro a crear.
+ * @param {Object} options.data - Objeto que contiene las columnas y valores del nuevo registro.
+ * @example
+ * const createUser = await users.new({
+ *     data: {
+ *         name: "Alejandro Salinas",
+ *         age: 20,
+ *         position: "Developer"
+ *     }
+ * });
+
+ */
+
+
 async new({ data = null } = {}) {
 
     if (!data || typeof data !== "object") {
-        throw new Error("INSERT_DATA_REQUIRED");
+        throw new Error("Es necesario enviar un objeto con las columnas y valores para crear un registro.");
     }
 
     const payload = {
@@ -86,34 +117,34 @@ async new({ data = null } = {}) {
         headers: {
             "content-type": "application/x-www-form-urlencoded"
         },
-        body:
-            `action=${encodeURIComponent(payload.action)}` +
-            `&database=${encodeURIComponent(payload.db)}` +
-            `&table=${encodeURIComponent(payload.table)}` +
-            `&data=${encodeURIComponent(JSON.stringify(payload.data))}`+
-            `&condition=${encodeURIComponent('none')}`
+        body:`action=${encodeURIComponent(payload.action)}&database=${encodeURIComponent(payload.db)}&table=${encodeURIComponent(payload.table)}&data=${encodeURIComponent(JSON.stringify(payload.data))}&condition=${encodeURIComponent('none')}`
     });
 
     const json = await res.json();
-    console.log(json);
     return json;
 }
 
 /**
- * @param {Object} options
+ * Cambia valores de uno o varios registros en la tabla.
+ *
+ * @param {Object} options - Configuración del cambio.
+ * @param {string} options.data - Objeto con las columnas y sus nuevos valores.
  * @param {Object} [options.where] 
  * @param {string} [options.where.column]
- * @param {string} [options.where.operator]
  * @param {string} [options.where.value]
- * @param {string[]|string} [options.select]
- * @param {number} [options.limit]
- * @param {Object} [options.order]
  * @param {string} [options.order.column]
  * @param {string} [options.order.data]
+ *
+ * @example
+ *const update = await users.change({
+ *    data: { name: "Alejandro", position: "Developer" },
+ *    where: { column: "name", value: "Roger" }
+*});
  */
 
+
 async change({ data = null, where = null } = {}) {
-    if (!data || !where) throw new Error("data and where are required for change");
+    if (!data || !where) throw new Error("Es necesario especificar la columna y el where para actualizar un registro.");
 
     const payload = {
         action: "change",
@@ -123,7 +154,6 @@ async change({ data = null, where = null } = {}) {
         where
     };
 
-    // Asegurarse de que where sea un array
     if (payload.where && !Array.isArray(payload.where)) {
         payload.where = [payload.where];
     }
@@ -135,12 +165,13 @@ async change({ data = null, where = null } = {}) {
     });
 
     const result = await res.json();
-    console.log(result);
     return result;
 }
 
 
 /**
+ * Elimina uno o varios registros de la tabla según la condición especificada.
+ *
  * @param {Object} options
  * @param {Object} [options.where] 
  * @param {string} [options.where.column]
@@ -151,34 +182,52 @@ async change({ data = null, where = null } = {}) {
  * @param {Object} [options.order]
  * @param {string} [options.order.column]
  * @param {string} [options.order.data]
+
+ *
+ * @param {boolean} [options.permission=false] - Permiso obligatorio cuando `safeMode` está habilitado.
+ * Si `safeMode: true` en la configuración global, es necesario enviar `permission: true` para ejecutar la eliminación.
+
+ * @example
+ * const removeUser = await users.remove({
+ *     where: { column: "name", value: "Alejandro Salinas" },
+ *     permission: true
+ * });
+
  */
 
-async remove({ where = null } = {}) {
-    if (!where) throw new Error("where is required for remove");
 
-    const payload = {
-        action: "remove",
-        db: this.db.name,
-        table: this.name,
-        where
-    };
+async remove({ where = null, permission = false } = {}) {
+    if (!where) throw new Error("Es necesario especificar un where para eliminar un registro.");
 
-    if (!Array.isArray(payload.where)) {
-        payload.where = [payload.where];
+    if(settings.safeMode == true && permission == false){
+
+        return {execute: false, error: 'Safe Mode está activo. Para permitir la eliminación bajo esta configuración, es necesario enviar permission: true en la solicitud.'}
+
+    }else{
+
+         const payload = {
+            action: "remove",
+            db: this.db.name,
+            table: this.name,
+            where
+        };
+
+        if (!Array.isArray(payload.where)) {
+            payload.where = [payload.where];
+        }
+
+        const res = await fetch(route, {
+            method: settings.method,
+            headers: { "content-type": "application/x-www-form-urlencoded" },
+            body: `action=${encodeURIComponent(payload.action)}&database=${encodeURIComponent(payload.db)}&table=${encodeURIComponent(payload.table)}&condition=${encodeURIComponent(JSON.stringify(payload.where))}`
+        });
+
+        const result = await res.json();
+        return result;
+
     }
-
-    const res = await fetch(route, {
-        method: settings.method,
-        headers: { "content-type": "application/x-www-form-urlencoded" },
-        body: `action=${encodeURIComponent(payload.action)}&database=${encodeURIComponent(payload.db)}&table=${encodeURIComponent(payload.table)}&condition=${encodeURIComponent(JSON.stringify(payload.where))}`
-    });
-
-    const result = await res.json();
-    console.log(result);
-    return result;
+   
 }
-
-
 
 
 }

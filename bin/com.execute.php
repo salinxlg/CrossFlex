@@ -10,7 +10,7 @@
         $table = $_POST["table"];
         $connection = newConnection($database);
 
-        function get(){
+        function get() {
 
             global $connection;
 
@@ -51,10 +51,15 @@
                 $query = $connection->query($sql);
                 $data = $query->fetch_all(MYSQLI_ASSOC);
 
+                // 👉 Aquí está la magia, manito
+                if (count($data) === 1) {
+                    $data = $data[0]; // lo mandamos como objeto
+                }
+
                 echo json_encode([
                     "execute" => true,
                     "result" => $data
-            ]);
+                ]);
 
             } catch (mysqli_sql_exception $e) {
 
@@ -65,7 +70,7 @@
                 ]);
             }
         }
-        
+
         function new_row() {
             global $connection;
 
