@@ -1,7 +1,7 @@
 
 <div align=center>
 
-  <img src="assx/img/logo.png" name="exemple" style="width:80px; height:80px;">
+  <img src="docs/com.logo.png" name="exemple" style="width:80px; height:80px;">
   
 </div>
 
@@ -228,6 +228,6 @@ esto creará una carpeta llamada dist en la raiz del proyecto, dentro estará el
 <br><br>
 <div align=center>
 
-<img src="assx/img/Sign.png" width="205px">
+<img src="docs/Sign.png" width="205px">
 
 </div>
