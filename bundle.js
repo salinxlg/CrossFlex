@@ -1,3 +1,30 @@
+
+/*!
+ * =========================================================
+ * CrossFlex.js v7.1.3
+ * =========================================================
+ *
+ * Author      : Alejandro Salinas
+ * Email/URL   : https://github.com/salinxlg/CrossFlex
+ * Email       : ceo@dexly.space | salinxlg@dexly.space
+ * License     : MIT
+ * Copyright   : (c) 2026 Alejandro Salinas, Dexly Studios LLC. All rights reserved.
+ * Signed      : 2025-12-03
+ *
+ * Description : Librería para manejo de bases de datos
+ *               y tablas desde JavaScript con soporte
+ *               fetch a PHP backend.
+ *
+ * Disclaimer  : Este software se proporciona "tal cual",
+ *               sin garantía de ningún tipo. El autor no se
+ *               hace responsable de daños directos o
+ *               indirectos derivados del uso del software.
+ *
+ * =========================================================
+ */
+
+
+
 let settings;
 let route;
 

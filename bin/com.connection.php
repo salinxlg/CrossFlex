@@ -1,8 +1,8 @@
 <?php
 
-    $host = "sv18.byethost18.org";
-    $username = "devlabsc_write_store";
-    $password = "Dv229011000$";
+    $host = "";
+    $username = "";
+    $password = "";
 
     function newConnection($dbname){
 

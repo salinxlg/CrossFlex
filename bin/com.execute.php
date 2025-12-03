@@ -51,9 +51,8 @@
                 $query = $connection->query($sql);
                 $data = $query->fetch_all(MYSQLI_ASSOC);
 
-                // 👉 Aquí está la magia, manito
                 if (count($data) === 1) {
-                    $data = $data[0]; // lo mandamos como objeto
+                    $data = $data[0];
                 }
 
                 echo json_encode([
@@ -90,7 +89,7 @@
             if (empty($data) || !is_array($data)) {
                 echo json_encode([
                     "execute" => false,
-                    "error" => "No data provided for insert"
+                    "error" => "No se enviaron datos para crear un registro."
                 ]);
                 exit;
             }
@@ -134,7 +133,7 @@
             if (empty($data) || !is_array($data)) {
                 echo json_encode([
                     "execute" => false,
-                    "error" => "No data provided for update"
+                    "error" => "No se enviaron datos para actualizar."
                 ]);
                 exit;
             }
@@ -203,7 +202,7 @@
             } else {
                 echo json_encode([
                     "execute" => false,
-                    "error" => "delete requires at least one condition"
+                    "error" => "No se enviaron datos para eliminar."
                 ]);
                 exit;
             }
@@ -244,7 +243,7 @@
 
     }else{
 
-        ReturnNow(["execute" => false, "code" => 400]);
+        ReturnNow(["execute" => false, "error" => 400]);
 
     }
     
