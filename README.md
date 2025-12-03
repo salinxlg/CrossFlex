@@ -10,9 +10,8 @@
 
 
 <br>
-<b>LineX</b> es una herramienta de consola con mejoras estéticas<br>
+<b>CrossFlex</b> es un  framework diseñado para facilitar las operaciones con MySQL desde proyectos JavaScript usando un ejecutor PHP robusto. Permite realizar consultas, inserciones, actualizaciones y eliminaciones mediante una sintaxis limpia y orientada al desarrollador. Incluye manejo de errores, validación interna y modo seguro (safeMode) para proteger datos en producción.<br>
 Este proyecto fue creado por <a href="https://instagram.com/salinxlg">Alejandro Salinas</a>.<br>
-<b>LineX es compatible con Windows, Linux y MacOs</b>
 
 <br>
 
@@ -20,128 +19,61 @@ Este proyecto fue creado por <a href="https://instagram.com/salinxlg">Alejandro 
 
 <br><br>
 
-<details>
-  <summary>Capturas del Proyecto</summary>
-  <div align=center>
-	<img src="docs/com.ss(3).png" name="demo 0" width="30%;" style="border-radius:10px">
-  </div> 
-</details><br> 
-
-## Inicio Rápido
+## Inicio Rápido e instalación
 Descarga de los archivos
 ```bash
-npm install dexline
+npm install crossflex
 ```
 
-Descarga de las dependencias de LineX
+
+##  Estructura y distribución del proyecto
 
 ```bash
-
-npm install
-
-```
-
-Iniciando LineX
-
-```bash
-
-npm start
-
-```
-
-Puedes iniciar LineX con este comando tambien:
-
-```bash
-
-npm run linex
-
-```
-
-<details>
-  <summary>Estructura y distribución del proyecto</summary>
-
-
-```bash
-LineX/
-├── assx/
-│   ├── com.css/
-│   │   └── com.config.css        // archivo de estilos
-│   ├── com.js/
-│   │   ├── com.engine.js         // archivo principal
-│   │   ├── com.back.js           // archivo de Backup (vacío)
-│   │   ├── com.dexkit.js         // kit de desarrollo
-│   │   └── prep.dexkit.js        // iniciador del kit
-│   ├── fonts/                    // fuentes
-│   ├── icons/                    // iconos
-│   └── img/                      // imágenes
+CrossFlex/
+├── bin/
+│   ├── com.execute.php
+│   └── com.connection.php
 │
-├── docs/                         // capturas de pantalla
+├── docs/
+│   ├── com.logo.png
+│   └── Sign.png
 │
-├── error/
-│   ├── css/
-│   ├── img/
-│   └── index.html
-│
-├── public/
-│   ├── about/                    // página de información del proyecto
-│   ├── preload/                  // página cargador de la aplicación
-│   └── index.html                 // aplicación
-│
-├── srx/
-│   ├── backup.js                 // backup del main
-│   ├── com.boot.js               // lógica de la app
-│   └── com.preloader.js          // preload
-│
-├── com.dexly.trust.cer           // certificado de CA para confianza en Windows
+├── bundle.js                     //archivo principal
+├── com.settings.json            // archivo de configuración
 ├── package.json
-└── package-lock.json
+└──
 
 ```
 
-</details>
 
+## Ver información y versión de CrossFlex
 
-<details>
-  <summary>Ver información y versión de LineX</summary>
-    <br>
-    Puedes ejecutar cualquiera de estos comandos para ver la versión o información de tu instalación
-    <br><br>
+Puedes ejecutar cualquiera de estos comandos para ver la versión o información de tu instalación
 
+```bash
 
-```js
-
-dex -v
+npm view crossflex
 
 ```
 
-```js
+```bash
 
-dex -about
-
-```
-
-```js
-
-dex about
+npm view crossflex version
 
 ```
 
-esto mostrará una ventana con esta información
+## Importación en JavaScript
 
-<div align=center>
-<img src="docs/com.ss(3).png" name="border" width="40%">
-</div>
-</details>
+``` js
 
+  import { DatabaseConnection, Table } from 'crossflex'
+
+```
 <br>
 
-
-
-
-
-## Compilar el proyecto y distribuir
-Para compilar este proyecto es necesario usar 
-` electron-builder `:
+## Comandos y forma de uso:
+A continuación se detallan los comandos y salidas esperadas al usar
+` CrossFlex `:
 
 ``` bash
 npm install electron-builder -dev
