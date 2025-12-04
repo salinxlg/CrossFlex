@@ -354,7 +354,7 @@ const get = await stock.get({
 
   });
 
-const status = crear.execute;
+const status = get.execute;
 
 if(status){
 
