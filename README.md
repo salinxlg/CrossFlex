@@ -71,56 +71,77 @@ npm view crossflex version
 ```
 <br>
 
-## Comandos y forma de uso:
-A continuación se detallan los comandos y salidas esperadas al usar
+## Información y configuración de CrossFlex
+A continuación se detallan las opciones y detalles para configurar
 ` CrossFlex `:
 
-``` bash
-npm install electron-builder -dev
-```
-
-El package.json ya está listo para empaquetar, puedes modificar esta información:
+El ` com.settings.json ` ya está listo para funcionar, pero puedes modificar cualquier parte del archivo para adaptarlo a tus necesidades:
 
 ``` json
-  "build": {
+{
 
-    "appId": "com.dexly.linex",
-    "productName": "Dexly LineX PlayGround",
-    "files": [
+    "mode": "local",
+    "location": "bin/com.execute.php",
+    "method": "POST",
+    "safeMode": true,
+    "logs": {
 
-      "srx/**/*",
-      "error/**/*",
-      "assx/**/*",
-      "public/**/*",
-      "package.json"
+        "enabled": false,
+        "mode": "console"
 
-    ],
-    "win": {
+    },
 
-      "target": "nsis",
-      "icon": "assx/img/logo.png"
+    "enveroiment": "development"
 
-    }
 
-  },
+}
 ```
 
-Es importante mencionar que electron, y electron-builder no pueden estar dentro de ` dependencies `, deben estar dentro de ` devDependencies ` de lo contrario no podrás compilar.
+CrossFlex requiere ejecutarse en un servidor (Apache/NGINX).
+Si trabajas desde un entorno local como Electron o Node, deberás servir el ejecutor PHP desde un servidor HTTPS, usar ` mode: "remote" ` y configurar CORS para permitir POST. Sin esto, las consultas no funcionarán.
 
-Cuando todo esté listo para compilar ejecutas:
+Estos son los métodos aceptados para enviar las consultas
 
-```bash
+``` json
 
-npm run dist
+    "method": "POST",
 
 ```
 
-esto creará una carpeta llamada dist en la raiz del proyecto, dentro estará el instalador de tu app, y tu app descomprimida, lista para ejecutar, solo te faltará firmar el exe, para eso puedes usar mi proyecto 
-[`Dexly CA`](https://github.com/salinxlg/dexlyca):
+``` json
+
+    "method": "GET",
+
+```
+
+
+se recomienda más usar POST para mantener la información más segura.
+
+<br>
+
+` Safe Mode ` está diseñado para evitar la ejecución accidental de operaciones destructivas, como ` remove ` (DELETE).
+Este modo acepta dos parámetros:
+
+``` json
+
+    "safeMode": true,
+
+```
+
+Eso significa que la protección está activa, y que se debe enviar una confirmación para eliminar los datos.
+
+``` json
+
+    "safeMode": false,
+
+```
+
+Esto significa que la protección está desactivada, y que se ejecutará remove sin necesidad de solicitar una confirmación.
 
 ## Información de versiones del proyecto:
 
 <details>
+
   <summary>Versión de Node.js</summary>
   
   <br>
