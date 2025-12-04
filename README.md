@@ -138,6 +138,10 @@ Eso significa que la protección está activa, y que se debe enviar una confirma
 
 Esto significa que la protección está desactivada, y que se ejecutará remove sin necesidad de solicitar una confirmación.
 
+<br>
+
+## Archivo de configuración de conexión
+
 ## Información de versiones del proyecto:
 
 <details>
