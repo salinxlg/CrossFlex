@@ -144,6 +144,42 @@ Esto significa que la protección está desactivada, y que se ejecutará remove 
 
 Para mantener la seguridad y privacidad las credenciales de acceso a las bases de datos y las tablas se alojan en el archivo ` com.connection.php `, dentro de la carpeta ` Bin `, deben ser reemplazadas antes de ejecutar el script para evitar errores de conexión.
 
+``` php
+
+    $host = "host.example.com";
+    $username = "salinxlg";
+    $password = "ABC123";
+
+
+```
+
+<br><br>
+
+## Conexión con base de datos y con tablas
+
+CrossFlex admite múltiples conexiones de bases de datos, la forma de establecer conexión con una base de datos es:
+
+``` javascript
+
+  const nombre = new DatabaseConnection("nombre_de_la_db");
+
+```
+
+los parámetros esperados son un ` string ` con el nombre de la base de datos.
+
+<br>
+
+Asímismo admite múltiples conexiónes a diferentes tablas simultaneamente de la siguiente forma:
+
+``` javascript
+
+  const tabla = new Table("nombre_de_la_tabla", base_de_datos);
+
+```
+
+los parámetros esperados aqui son ` string ` ` instance ` con el nombre de la tabla y la conexión a la base de datos.
+
+
 ## Información de versiones del proyecto:
 
 <details>
