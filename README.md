@@ -142,6 +142,8 @@ Esto significa que la protección está desactivada, y que se ejecutará remove 
 
 ## Archivo de configuración de conexión
 
+Para mantener la seguridad y privacidad las credenciales de acceso a las bases de datos y las tablas se alojan en el archivo ` com.connection.php `, dentro de la carpeta ` Bin `, deben ser reemplazadas antes de ejecutar el script para evitar errores de conexión.
+
 ## Información de versiones del proyecto:
 
 <details>
