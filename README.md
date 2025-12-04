@@ -254,7 +254,7 @@ en caso de error deberías ver:
 {"execute": false, "error": "Información sobre el error"}
 ```
 
-la forma de saber el estado de la ejecución es de la siguiente forma:
+la forma de saber el estado de la ejecución es de la siguiente:
 
 ``` javascript
 
@@ -280,6 +280,123 @@ if(status){
 }
 
 ```
+
+
+<br>
+
+## Método Get
+El método `get` permite consultar registros de una tabla.
+Se pueden especificar condiciones (`where`), columnas a seleccionar (`select`), límite de resultados (`limit`) y orden (`order`). Si no se especifica ninguna condición, el método devuelve todos los registros disponibles. Esta función devuelve los datos en formato JSON listo para ser procesado por la aplicación.
+
+La estructura de `get` es:
+
+``` javascript
+
+    stock.get({
+        select: ["column", "column"], 
+        where: { column: "name", value: "value"},
+        order: { column: "name", data: "ASC" },
+        limit: 1
+    });
+
+```
+
+## Ejemplo de uso de ` get `
+
+``` javascript
+
+    const get = stock.get({
+
+      select: ["name", "position"],
+      where: { column: "name", value: "Alejandro Salinas"},
+      order: { column: "name", data: "ASC" },
+      limit: 1
+
+    });
+
+    console.log(get) // salida
+
+
+```
+
+Este proceso obtiene únicamente las columnas solicitadas y aplica, si se especifican, las condiciones de filtrado, ordenamiento y límite en la consulta. Los parámetros `where`, `order` y `limit` son opcionales:
+
+Si no se define `where`, se devuelven todos los registros disponibles.
+
+Si no se establece `order`, no se aplicará ningún tipo de ordenamiento.
+
+Si no se indica `limit`, la consulta retornará la totalidad de los registros coincidentes.
+
+<br>
+
+## Ejemplo para obtener todos los registros de la base de datos
+
+``` javascript
+
+    stock.get({
+
+      select: ["name", "position"],
+
+    });
+
+    console.log(crear) // salida
+
+
+```
+
+## La forma de obtener el resultado de la solicitud es de la siguiente:
+
+``` javascript
+
+const get = await stock.get({
+
+  select: ["name", "position"],
+
+  });
+
+const status = crear.execute;
+
+if(status){
+
+  const resultado = get.result.dato //en caso de ser un unico registro
+  const resultado = get.result.forEach(element => {}); //en caso de ser un múltiples registros
+
+  console.log(resultado);
+
+}else{
+
+  console.log("!ok")
+
+}
+
+```
+
+Al resolverse la promesa, en caso de una salir todo deberías obtener un json asi:
+
+``` json
+
+{
+  "execute":true,
+  "result":[
+      {"columna":"valor"},
+      {"columna":"valor"}
+      {"columna":"valor"},
+    ]
+        
+}
+
+```
+si tu consulta tiene varias respuestas se devuelve un `array`, si es una sola se devuelve como objeto único.
+
+en caso de error deberías ver: 
+
+``` json
+
+{"execute": false, "error": "Información sobre el error"}
+
+```
+
+
 
 ## Información de versiones del proyecto:
 
