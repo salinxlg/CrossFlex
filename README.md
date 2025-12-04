@@ -396,17 +396,269 @@ en caso de error deberías ver:
 
 ```
 
+<br>
+
+
+## Método Change
+El método `change` permite actualizar registros existentes en una tabla.
+Se debe indicar qué registros se van a modificar mediante condiciones (`where`) y los valores que se van a actualizar. Este método garantiza que solo se modifiquen los registros especificados, evitando cambios accidentales sobre toda la tabla.
+
+La estructura de `change` es:
+
+``` javascript
+
+stock.change({
+
+    data: {
+
+        column: 'value',
+        column: 'value',
+        column: 'value'
+
+    },
+    where: {column: 'name', value: 'value'}
+
+})
+
+```
+
+## Ejemplo de uso de ` change `
+
+``` javascript
+
+const actualizar = await stock.change({
+
+  data: {
+
+    ProductName: 'Airpods Max'
+    Price: 450
+
+  },
+  where: {column: 'SKU', value: 'ABC123'}
+
+})
+
+console.log(actualizar)
+
+
+```
+
+
+Al resolverse la promesa, en caso de una actualización exitosa deberías obtener un json asi:
+
+``` json
+
+{"execute":true,"affected_rows":1}
+
+```
+
+en caso de error deberías ver: 
+
+``` json
+
+{"execute": false, "error": "Información sobre el error"}
+```
+
+la forma de saber el estado de la ejecución es de la siguiente:
+
+``` javascript
+
+const actualizar = await stock.change({
+
+  data: {
+
+    ProductName: 'Airpods Max'
+    Price: 450
+
+  },
+  where: {column: 'SKU', value: 'ABC123'}
+
+})
+
+const status = actualizar.execute;
+
+if(status){
+
+  console.log("ok");
+
+}else{
+
+  console.log("!ok")
+
+}
+
+```
+
+<br>
+
+## Método Remove
+El método `remove` permite eliminar registros de una tabla.
+Se debe indicar qué registros eliminar mediante condiciones (`where`). Además, si safeMode está activado en la configuración, será necesario enviar un parámetro de confirmación (`permission: true`) para evitar la eliminación accidental de datos importantes.
+
+La estructura de `remove` es:
+
+``` javascript
+
+stock.remove({
+
+    where: {
+
+        column: "name",
+        value: "value"
+
+    },
+    permission: true
+
+})
+
+```
+
+## Ejemplo de uso de ` remove `
+
+``` javascript
+
+const eliminar = await stock.remove({
+
+    where: {
+
+        column: "SKU",
+        value: "ABC123"
+
+    },
+    permission: true // es importante enviar esto, ya que si Safe Mode está activo se ignorará la petición
+
+})
+
+console.log(eliminar)
+
+
+```
+
+
+Al resolverse la promesa, en caso de una actualización exitosa deberías obtener un json asi:
+
+``` json
+
+{"execute":true,"affected_rows":1}
+
+
+```
+
+en caso de error deberías ver: 
+
+``` json
+
+{"execute": false, "error": "Información sobre el error"}
+```
+
+la forma de saber el estado de la ejecución es de la siguiente:
+
+``` javascript
+
+const eliminar = await stock.remove({
+
+    where: {
+
+        column: "SKU",
+        value: "ABC123"
+
+    },
+    permission: true
+
+})
+
+const status = eliminar.execute;
+
+if(status){
+
+  console.log("ok");
+
+}else{
+
+  console.log("!ok")
+
+}
+
+```
+
+<br>
+
+## Información sobre el funcionamiento de `where`
+El parámetro `where` permite filtrar los registros que deseas obtener, modificar o eliminar.
+CrossFlex admite múltiples condiciones al mismo tiempo y cada condición se procesa usando el operador lógico AND por defecto.
+
+### Cómo funcionan varios `where`
+Puedes enviar un array con varias condiciones, por ejemplo:
+
+``` js
+
+where: [
+
+  {"field": "status", "operator": "=", "value": "active"},
+  {"field": "age", "operator": ">", "value": 18}
+
+]
+
+
+```
+
+Esto generará una consulta equivalente a:
+
+``` java
+
+WHERE status = 'active' AND age > 18
+
+```
+
+Cada objeto dentro del array representa una condición independiente.
+
+## Operadores permitidos
+Los operadores más comunes son:
+`=`
+
+`!=`
+
+`>`
+
+`<`
+
+`>=`
+
+`<=`
+
+`LIKE` (para patrones)
+
+`IN` (cuando el valor es un array)
+
+Ejemplo con `IN`:
+
+``` javascript
+
+where: [
+
+  {"field": "role", "operator": "IN", "value": ["admin", "editor"]}
+
+]
+
+```
+
+## ¿Qué pasa si no pones select?
+
+Si no especificas el parámetro `select`, CrossFlex devolverá todas las columnas de la tabla por defecto.
+
+
+
 
 
 ## Información de versiones del proyecto:
 
 <details>
 
-  <summary>Versión de Node.js</summary>
+  <summary>Versión de StarX</summary>
   
   <br>
   
-  Use Node.js ` v24.6.0 `
+   ` 7.6.0 `
 
 </details>
 
@@ -419,24 +671,45 @@ en caso de error deberías ver:
 
 </details>
 
-<details>
-  <summary>Versión de electron</summary>
-  
-  <br>
-  
-  Use electron ` v37.1.0 `
 
-</details>
+
+<br><br><br>
+
+<div align=center>
+
+  <img src="docs/group.png" name="exemple" style="width:80px; height:80px;">
+  
+</div>
+
+<h1 align=center>Licencia y distribución</h1>
+<div align=left>
+
 
 <br>
+<b>CrossFlex</b> es un proyecto de código abierto y se distribuye bajo una licencia libre que permite:
+<br><br>
+
+- Usarlo para fines personales y comerciales
+- Modificarlo
+- Distribuirlo
+- Integrarlo en otros proyectos
+
+Sin embargo, este software se entrega “tal cual”, sin garantías de ningún tipo.
+Ni el autor ni Dexly Studios se hacen responsables de daños, fallos, pérdidas de datos, mal uso o cualquier consecuencia derivada del uso de este proyecto.
+
+Puedes usarlo, estudiarlo, modificarlo y adaptarlo con total libertad, siempre conservando este aviso de licencia.
+
+<br>
+
+</div>
 
 
 ## Información final del proyecto:
 
 - [Alejandro Salinas](https://instagram.com/salinxlg) es el creador de este proyecto
-- La versión actual de LineX es `v7.1.0`
-- Puedes instalar el proyecto clonando el repositorio o con `npm install dexline`
-- © 2025 Alejandro Salinas, Dexly Studios, Todos los derechos Reservados.
+- La versión actual de CrossFlex es `v7.1.2`
+- Puedes instalar el proyecto clonando el repositorio o con `npm install crossflex`
+- © 2026 Alejandro Salinas, Dexly Studios, Todos los derechos Reservados.
 
 <br><br>
 <div align=center>
