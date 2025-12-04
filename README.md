@@ -179,6 +179,107 @@ Asímismo admite múltiples conexiónes a diferentes tablas simultaneamente de l
 
 los parámetros esperados aqui son ` string ` ` instance ` con el nombre de la tabla y la conexión a la base de datos.
 
+<br>
+
+## Ejemplo de conexión:
+
+``` javascript
+
+  const store = new DatabaseConnection("store");
+  const stock = new Table("stock", store)
+
+```
+
+<br>
+
+## Formas de uso y métodos
+
+CrossFlex cuenta con 4 funcionalidades principales para gestion de registros: ` new `, `get`, `change` y `remove`, a continuación se especifican sus usos, parámetros e información adicional:
+
+<br>
+
+## Método New
+El método `new` permite crear registros en una tabla específica de la base de datos.
+Se utiliza para insertar nuevos datos, especificando los valores de cada columna que se desea agregar. Este método recibe un objeto con los datos a insertar y se asegura de manejar la información de forma segura, evitando conflictos o errores de conexión.
+
+La estructura de `new` es:
+
+``` javascript
+
+  stock.new({data: {
+
+        column: "value",
+        column: "value",
+        column: "value",
+
+    }})
+
+```
+
+## Ejemplo de uso de ` new `
+
+``` javascript
+
+  //Se debe especificar la tabla donde se trabajará y crear el objeto data, luego asignar el nombre del la columna y su valor
+
+    const crear = await stock.new({data: {
+
+      //Columna
+        SKU: "ABC123", //Valor
+        ProductName: 'Airpods Pro',
+        Price: 250,
+        Currency: "$",
+
+    }})
+
+    console.log(crear) // salida
+
+
+```
+
+CrossFlex funciona de manera asíncrona, por lo que se debe usar `await`, o `.then()` para obtener el estado de la query
+
+Al resolverse la promesa, en caso de una adición exitosa deberías obtener un json asi:
+
+``` json
+
+{"execute": true, "insert_id": 0}
+
+```
+
+en caso de error deberías ver: 
+
+``` json
+
+{"execute": false, "error": "Información sobre el error"}
+```
+
+la forma de saber el estado de la ejecución es de la siguiente forma:
+
+``` javascript
+
+const crear = await stock.new({data: {
+
+  SKU: "ABC123",
+  ProductName: 'Airpods Pro',
+  Price: 250,
+  Currency: "$",
+
+}})
+
+const status = crear.execute;
+
+if(status){
+
+  console.log("ok");
+
+}else{
+
+  console.log("!ok")
+
+}
+
+```
 
 ## Información de versiones del proyecto:
 
