@@ -707,7 +707,7 @@ Puedes usarlo, estudiarlo, modificarlo y adaptarlo con total libertad, siempre c
 ## Información final del proyecto:
 
 - [Alejandro Salinas](https://instagram.com/salinxlg) es el creador de este proyecto
-- La versión actual de CrossFlex es `v7.1.2`
+- La versión actual de CrossFlex es `v7.2.4`
 - Puedes instalar el proyecto clonando el repositorio o con `npm install crossflex`
 - © 2026 Alejandro Salinas, Dexly Studios, Todos los derechos Reservados.
 
